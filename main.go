@@ -17,6 +17,11 @@ type API int
 
 var database []Item
 
+func (a *API) GetDB(empty string, reply *[]Item) error {
+	*reply = database
+	return nil
+}
+
 // returned error indicates taht call will not later return a value
 func (a *API) GetByName(name string, reply *Item) error {
 	var getItem Item
@@ -66,11 +71,6 @@ func (a *API) DeleteItem(item Item, reply *Item) error {
 	return nil
 }
 
-func (a *API) GetDB(item Item, reply *[]Item) error {
-	*reply = database
-	return nil
-}
-
 func log_fatal_on_error(err_string string, err error) {
 	if err != nil {
 		log.Fatal(err_string, err)
@@ -78,7 +78,6 @@ func log_fatal_on_error(err_string string, err error) {
 }
 
 func main() {
-
 	var api = new(API)
 
 	err := rpc.Register(api)
@@ -94,20 +93,4 @@ func main() {
 	log_fatal_on_error("error serving: ", err)
 
 	fmt.Println("Initial database ", database)
-	// a := Createitem("first", "first Body")
-	// b := Createitem("second", "second Body")
-	// c := Createitem("third", "third Body")
-	// AddItem(a)
-	// AddItem(b)
-	// AddItem(c)
-	// fmt.Println("database ", database)
-	// DeleteItem(b)
-	// fmt.Println("database ", database)
-	// EditItem(Createitem("first", "new first Body"))
-	// fmt.Println("database ", database)
-
-	// x := GetByName("first")
-	// y := GetByName("fourth")
-	// fmt.Println(x,y)
-	// fmt.Println("database ", database)
 }
