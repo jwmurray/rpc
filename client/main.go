@@ -15,7 +15,7 @@ func main() {
 	var reply Item
 	var db []Item
 
-	client, err := rpc.DialHTTP("tcp", "localhost:4040")
+	client, err := rpc.DialHTTP("tcp", "192.168.107.121:4040")
 
 	if err != nil {
 		log.Fatal("Connection error: ", err)

@@ -1,6 +1,6 @@
 package main
 
-import 	(
+import (
 	"fmt"
 	"log"
 	"net"
@@ -10,11 +10,11 @@ import 	(
 
 type Item struct {
 	Title string
-	Body string
+	Body  string
 }
 
-type API int 
-   
+type API int
+
 var database []Item
 
 // returned error indicates taht call will not later return a value
@@ -52,9 +52,9 @@ func (a *API) EditItem(edit Item, reply *Item) error {
 	return nil
 }
 
-func (a *API) DeleteItem( item Item, reply *Item) error {
+func (a *API) DeleteItem(item Item, reply *Item) error {
 	var del Item
-	
+
 	for idx, val := range database {
 		if val.Title == item.Title {
 			database = append(database[:idx], database[idx+1:]...)
@@ -63,6 +63,11 @@ func (a *API) DeleteItem( item Item, reply *Item) error {
 		}
 	}
 	*reply = del
+	return nil
+}
+
+func (a *API) GetDB(item Item, reply *[]Item) error {
+	*reply = database
 	return nil
 }
 
@@ -83,11 +88,10 @@ func main() {
 
 	listener, err := net.Listen("tcp", ":4040")
 	log_fatal_on_error("listener error: ", err)
-	
+
 	log.Printf("serving rpc on port %d", 4040)
 	err = http.Serve(listener, nil)
 	log_fatal_on_error("error serving: ", err)
-
 
 	fmt.Println("Initial database ", database)
 	// a := Createitem("first", "first Body")
